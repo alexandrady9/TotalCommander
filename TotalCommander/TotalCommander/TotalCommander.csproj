@@ -127,16 +127,11 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Images\arrow-180.png" />
     <Resource Include="Images\blue-document-tree.png" />
-    <Resource Include="Images\folder--minus.png" />
-    <Resource Include="Images\folder--plus.png" />
-    <Resource Include="Images\folder-share.png" />
     <Resource Include="Images\information-balloon.png" />
     <Resource Include="Images\layout-2-equal.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Images\script-export.png" />
     <Resource Include="Images\terminal--plus.png" />
     <Resource Include="Images\ui-scroll-pane-block.png" />
     <Resource Include="Images\ui-split-panel.png" />

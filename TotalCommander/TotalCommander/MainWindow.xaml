@@ -46,11 +46,7 @@
                 <Separator HorizontalAlignment = "Left" Width = "220" />
 
                 <MenuItem Header = "Exit" HorizontalAlignment = "Left" Width = "237" 
-               Click = "ExitClick" Margin="0,0,-29,0" InputGestureText="esc" >
-                    <MenuItem.Icon>
-                        <Image Source=".\Images\terminal--plus.png" Margin="0,0,-11,0"/>
-                    </MenuItem.Icon>
-                </MenuItem>
+               Click = "ExitClick" Margin="0,0,-29,0" InputGestureText="esc" />
             </MenuItem>
 
             <MenuItem Header = "Show">
