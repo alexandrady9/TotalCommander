@@ -1,0 +1,217 @@
+﻿<Window x:Class="TotalCommander.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:TotalCommander"
+        mc:Ignorable="d"
+        Title="Total Commander" Height="509" Width="1150"
+        Loaded="Window_Loaded">
+    <Grid>
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"></ColumnDefinition>
+            <ColumnDefinition Width="5"></ColumnDefinition>
+            <ColumnDefinition Width="*"></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="90"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="20"></RowDefinition>
+        </Grid.RowDefinitions>
+
+        <Menu HorizontalAlignment="Stretch" Height="18" VerticalAlignment="Top" Grid.ColumnSpan="3">
+            <MenuItem Header = "File">
+                <MenuItem Header = "Pack" HorizontalAlignment = "Left" Width = "237" 
+               Click = "PackClick" Margin="0,0,-49,0" InputGestureText="Ctrl + P" Name="PackButton">
+                    <MenuItem.Icon>
+                        <Image Source=".\Images\pack.png" Height="25" Margin="0,0,-11,0"/>
+                    </MenuItem.Icon>
+                </MenuItem>
+
+                <MenuItem Header = "Unpack" HorizontalAlignment = "Left" Width = "237" 
+               Click = "UnpackClick" Margin="0,0,-49,0" InputGestureText="Ctrl + U" Name="UnpackButton">
+                    <MenuItem.Icon>
+                        <Image Source=".\Images\unpack.png" Height="25" Margin="0,0,-11,0"/>
+                    </MenuItem.Icon>
+                </MenuItem>
+
+                <MenuItem Header = "Compare by content" HorizontalAlignment = "Left" Width = "237" 
+               Click = "CompareClick" Margin="0,0,-50,0"  InputGestureText="Ctrl + B" IsEnabled="False">
+                    <MenuItem.Icon>
+                        <Image Source=".\Images\ui-scroll-pane-block.png" Margin="0,0,-11,0"/>
+                    </MenuItem.Icon>
+                </MenuItem>
+
+                <Separator HorizontalAlignment = "Left" Width = "220" />
+
+                <MenuItem Header = "Exit" HorizontalAlignment = "Left" Width = "237" 
+               Click = "ExitClick" Margin="0,0,-29,0" InputGestureText="esc" >
+                    <MenuItem.Icon>
+                        <Image Source=".\Images\terminal--plus.png" Margin="0,0,-11,0"/>
+                    </MenuItem.Icon>
+                </MenuItem>
+            </MenuItem>
+
+            <MenuItem Header = "Show">
+                <MenuItem Header = "Full" HorizontalAlignment = "Left" Width = "235" 
+               Click = "FullClick" Margin="0,0,-74,0" InputGestureText="Ctrl+1">
+                    <MenuItem.Icon>
+                        <Image Source=".\Images\layout-2-equal.png" Margin="0,0,-11,0"/>
+                    </MenuItem.Icon>
+                </MenuItem>
+                <MenuItem Header = "Tree" HorizontalAlignment = "Left" Width = "234" 
+               Click = "TreeClick" Margin="0,0,-67,0"  InputGestureText="Ctrl+2">
+                    <MenuItem.Icon>
+                        <Image Source=".\Images\blue-document-tree.png" Margin="0,0,-11,0"/>
+                    </MenuItem.Icon>
+                </MenuItem>
+                <MenuItem Header = "Vertical Arrangement" HorizontalAlignment = "Left" Width = "235" 
+               Click = "VerticalClick" Margin="0,0,-13,0" InputGestureText="Ctrl+3">
+                    <MenuItem.Icon>
+                        <Image Source=".\Images\ui-split-panel.png" Margin="0,0,-11,0"/>
+                    </MenuItem.Icon>
+                </MenuItem>
+                <Separator HorizontalAlignment = "Left" Width = "220" />
+                <MenuItem Header = "New Tab" HorizontalAlignment = "Left" Width = "235" 
+               Click = "NewTabClick" Margin="0,0,-13,0"  InputGestureText="Tab">
+                    <MenuItem.Icon>
+                        <Image Source=".\Images\terminal--plus.png" Margin="0,0,-11,0"/>
+                    </MenuItem.Icon>
+                </MenuItem>
+            </MenuItem>
+
+            <MenuItem Header = "Help">
+                <MenuItem Header = "About" HorizontalAlignment = "Left" Width = "165" 
+               Click = "AboutClick" Margin="0,0,-12,0"  InputGestureText="Ctrl+H">
+                    <MenuItem.Icon>
+                        <Image Source=".\Images\information-balloon.png" Margin="0,0,-11,0"/>
+                    </MenuItem.Icon>
+                </MenuItem>
+            </MenuItem>
+
+        </Menu>
+
+
+
+        <Border Grid.ColumnSpan="3"></Border>
+        <Border  HorizontalAlignment="Stretch" Grid.Row="1" Grid.Column="0" >
+            <ComboBox Name="ComboBox" HorizontalAlignment="Stretch" VerticalAlignment="Top" SelectionChanged="ComboBox_SelectionChanged" Height="22"/>
+        </Border>
+
+        <Border HorizontalAlignment="Stretch" Grid.Row="1" Grid.Column="2">
+            <ComboBox Name="ComboBox2" HorizontalAlignment="Stretch" VerticalAlignment="Top" SelectionChanged="ComboBox_SelectionChanged2" Height="22"/>
+        </Border>
+
+
+        <TextBox Name ="TextBox" Grid.Row="0" Grid.ColumnSpan="3" HorizontalAlignment="Right" Height="22" Margin="0,23,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="600"/>
+        <GridSplitter  Grid.Row="1" Grid.Column="1" Width="4" HorizontalAlignment="Stretch"/>
+
+
+        <TextBlock Name ="PathLeftSide" Grid.Row="1" Grid.Column="0" HorizontalAlignment="Stretch" VerticalAlignment="Bottom" Height="22"/>
+        <TextBlock Name ="PathRightSide" Grid.Row="1" Grid.Column="3" HorizontalAlignment="Stretch" VerticalAlignment="Bottom" Height="22"/>
+        
+        <ListView Visibility="Visible" Grid.Row="1" Grid.Column="0" HorizontalAlignment = "Stretch" x:Name = "SideLeftList" Margin="0,21,0,22" MouseDoubleClick="SideLeftList_DoubleClick" MouseRightButtonUp =" SideLeftList_RightClick">
+
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn Header = "Name">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <WrapPanel>
+                                    <Image Source="{Binding Icon}" Width="15" Height="15"/>
+                                    <TextBlock Text ="{Binding Name}" />
+                                </WrapPanel>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                    <GridViewColumn Header = "LastWriteTime" DisplayMemberBinding = "{Binding LastWriteTime}"/>
+                    <GridViewColumn Header = "Extension" DisplayMemberBinding = "{Binding Extension}"/>
+                    <GridViewColumn Header = "Lenght" DisplayMemberBinding = "{Binding Length}"/>
+
+                </GridView>
+            </ListView.View>
+
+        </ListView>
+
+
+        <TreeView Visibility="Hidden" Grid.Row="1" Grid.Column="0" HorizontalAlignment = "Stretch"  x:Name = "SideLeftListTreeView" Margin="0,21,0,0" MouseDoubleClick="SideLeftList_DoubleClick" MouseRightButtonUp =" SideLeftList_RightClick">>
+            <TreeView.Resources>
+
+                <Style TargetType="{x:Type TreeViewItem}">
+                    <Setter Property="HeaderTemplate">
+                        <Setter.Value>
+                            <DataTemplate>
+                                <StackPanel Orientation="Horizontal">
+                                    <Image Name="img" Width="20" Height="20"
+                                        Source="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type TreeViewItem}},
+                                        Path=Tag,
+                                        Converter={x:Static local:HeaderToImageConverter.Instance}}"/>
+                                    <TextBlock VerticalAlignment="Center" Text="{Binding}" />
+                                </StackPanel>
+                            </DataTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </TreeView.Resources>
+        </TreeView>
+
+        <ListView Visibility="Visible" Grid.Row="1" Grid.Column="2" HorizontalAlignment = "Stretch" x:Name = "SideRightList" RenderTransformOrigin="0.5,0.5" Margin="0,21,0,22" MouseDoubleClick="SideRightList_DoubleClick" MouseRightButtonUp =" SideRightList_RightClick">
+
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn Header = "Name" >
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <WrapPanel>
+                                    <Image Source="{Binding Icon}" Width="15" Height="15"/>
+                                    <TextBlock Text ="{Binding Name}" />
+                                </WrapPanel>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                    <GridViewColumn Header = "LastWriteTime" DisplayMemberBinding = "{Binding LastWriteTime}"/>
+                    <GridViewColumn Header = "Extension" DisplayMemberBinding = "{Binding Extension}"/>
+                    <GridViewColumn Header = "Lenght" DisplayMemberBinding = "{Binding Length}"/>
+
+                </GridView>
+            </ListView.View>
+
+        </ListView>
+
+        <TreeView Visibility="Hidden" Grid.Row="1" Grid.Column="2" HorizontalAlignment = "Stretch" x:Name = "SideRightListTreeView" Margin="0,21,10,0" MouseDoubleClick="SideRightList_DoubleClick" MouseRightButtonUp =" SideRightList_RightClick">
+            <TreeView.Resources>
+
+                <Style TargetType="{x:Type TreeViewItem}">
+                    <Setter Property="HeaderTemplate">
+                        <Setter.Value>
+                            <DataTemplate>
+                                <StackPanel Orientation="Horizontal">
+                                    <Image Name="img" Width="20" Height="20"
+                                        Source="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type TreeViewItem}},
+                                        Path=Tag,
+                                        Converter={x:Static local:HeaderToImageConverter.Instance}}"/>
+                                    <TextBlock VerticalAlignment="Center" Text="{Binding}" />
+                                </StackPanel>
+                            </DataTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </TreeView.Resources>
+        </TreeView>
+
+        <Border  Grid.Row="2" Grid.ColumnSpan="3" Background="#d6d6c2" >
+            <WrapPanel>
+                <Button Name="Add"  Content ="F3 Add" HorizontalAlignment="Stretch"  Width="165" Margin="0,0,0.4,-0.2" Click="AddButton"/>
+                <Button Content="F4 Copy" HorizontalAlignment="Stretch" Click="CopyButton" Width="160"/>
+                <Button Content="F5 Delete" HorizontalAlignment="Stretch" Click="DeleteButton" Width="160"/>
+                <Button Content="F6 Move" HorizontalAlignment="Stretch" Click="MoveButton" Width="160"/>
+                <Button Content="F7 ViewTxt" HorizontalAlignment="Stretch" Click="ViewTxtButton" Width="160"/>
+                <Button Content="F8 Back" HorizontalAlignment="Stretch" Click="BackButton" Width="160"/>
+                <Button Content="F9 Exit" HorizontalAlignment="Stretch" Click="ExitClick" Width="160"/>
+            </WrapPanel>
+        </Border>
+
+    </Grid>
+
+</Window>
